@@ -3,13 +3,6 @@
 Bing Maps Factory
 
 ## Getting Started
-### On the server
-Install the module with: `npm install BingMapsFactory`
-
-```javascript
-var BingMapsFactory = require('BingMapsFactory');
-BingMapsFactory.awesome(); // "awesome"
-```
 
 ### In the browser
 Download the [production version][min] or the [development version][max].
@@ -22,27 +15,27 @@ In your web page:
 ```html
 <script src="dist/BingMapsFactory.min.js"></script>
 <script>
-awesome(); // "awesome"
+map = new BingMap('#map',{
+	apiKey: 'YourAPIKey',
+	center: {
+		lat: 39.763279,
+		lng: -84.182617
+	}
+});
+
+map.load().bind('viewchangeend',function(){
+	console.log('I changed!')
+}).addPin({
+	lat: 39.763279,
+	lng: -84.182617
+});
 </script>
 ```
 
-In your code, you can attach BingMapsFactory's methods to any object.
-
-```html
-<script>
-var exports = Bocoup.utils;
-</script>
-<script src="dist/BingMapsFactory.min.js"></script>
-<script>
-Bocoup.utils.awesome(); // "awesome"
-</script>
-```
 
 ## Documentation
 _(Coming soon)_
 
-## Examples
-_(Coming soon)_
 
 ## Contributing
 In lieu of a formal styleguide, take care to maintain the existing coding style. Add unit tests for any new or changed functionality. Lint and test your code using [Grunt](http://gruntjs.com/).
@@ -53,5 +46,5 @@ _Also, please don't edit files in the "dist" subdirectory as they are generated 
 _(Nothing yet)_
 
 ## License
-Copyright (c) 2013 Danny Scott  
+Copyright (c) 2013 Danny Scott
 Licensed under the MIT license.
