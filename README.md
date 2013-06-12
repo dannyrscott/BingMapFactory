@@ -15,7 +15,7 @@ In your web page:
 ```html
 <script src="dist/BingMapsFactory.min.js"></script>
 <script>
-map = new BingMap('#map',{
+map = new BingMap(document.getElementById('map'),{
 	apiKey: 'YourAPIKey',
 	center: {
 		lat: 39.763279,

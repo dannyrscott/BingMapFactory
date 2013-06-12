@@ -1,14 +1,26 @@
-/*! BingMapsFactory - v0.0.1 - 2013-06-11
+/*! BingMapsFactory - v0.0.1 - 2013-06-12
 * https://github.com/dannyrscott/BingMapFactory
 * Copyright (c) 2013 Danny Scott; Licensed MIT */
 /*! BingMapsFactory - v0.0.1 - 2013-06-11
 * https://github.com/dannyrscott/BingMapFactory
 * Copyright (c) 2013 Danny Scott; Licensed MIT */
-/*global $, Microsoft*/
+/*global Microsoft*/
 (function(exports) {
 
 	'use strict';
-
+	/* Extend Function
+    *  Taken from underscore http://underscorejs.org/
+	*/
+	var _extend = function(obj) {
+		Array.prototype.slice.call(arguments, 1).forEach(function(source) {
+			if (source) {
+				for (var prop in source) {
+					obj[prop] = source[prop];
+				}
+			}
+		});
+		return obj;
+	};
 	var MM,
 		defaultOpts = {
 			credentials: "",
@@ -24,15 +36,15 @@
 
 		opts = opts || {};
 
-		this.opts = $.extend(opts,defaultOpts);
+		this.opts = _extend(defaultOpts,opts);
 		this.opts.credentials = this.opts.apiKey;
 		var centerPoint = this.opts.center;
 		this.opts.center = new MM.Location(centerPoint.lat,centerPoint.lng);
-		this.div = $(div) || [];
+		this.div = div || [];
 	};
 
 	BingMap.prototype.load = function() {
-		this.map = new MM.Map(this.div[0],this.opts);
+		this.map = new MM.Map(this.div,this.opts);
 
 		return this;
 	};
@@ -42,8 +54,7 @@
 			throttled: true,
 			delay: 3000
 		};
-		eventOpts = $.extend(opts,eventOpts);
-
+		eventOpts = _extend(eventOpts,opts);
 		if (!func || !event) {
 			return this;
 		}
@@ -62,7 +73,7 @@
 
 		};
 
-		pinOpts = $.extend(opts,pinOpts);
+		pinOpts = _extend(pinOpts,opts);
 		var pin = new MM.Pushpin(new MM.Location(pinOpts.lat,pinOpts.lng),pinOpts);
 		this.map.entities.push(pin);
 
