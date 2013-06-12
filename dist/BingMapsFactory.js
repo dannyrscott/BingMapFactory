@@ -22,6 +22,7 @@
 		return obj;
 	};
 	var MM,
+		_events = [], //Holds the bound map events
 		defaultOpts = {
 			credentials: "",
 			zoom: 17
@@ -41,6 +42,7 @@
 		var centerPoint = this.opts.center;
 		this.opts.center = new MM.Location(centerPoint.lat,centerPoint.lng);
 		this.div = div || [];
+
 	};
 
 	BingMap.prototype.load = function() {
@@ -58,12 +60,24 @@
 		if (!func || !event) {
 			return this;
 		}
+		eventOpts.eventName = eventOpts.eventName || event;
+
 		if (eventOpts.throttled) {
-			MM.Events.addThrottledHandler(this.map, event, func,eventOpts.delay);
+			_events[eventOpts.eventName] = MM.Events.addThrottledHandler(this.map, event, func,eventOpts.delay);
 		} else {
-			MM.Events.addHandler(this.map, event, func);
+			_events[eventOpts.eventName] =  MM.Events.addHandler(this.map, event, func);
 		}
 
+		return this;
+	};
+
+	BingMap.prototype.unbind = function(event) {
+		if (!event) {
+			return this;
+		}
+		if (_events[event]) {
+			MM.Events.removeHandler(_events[event]);
+		}
 
 		return this;
 	};
